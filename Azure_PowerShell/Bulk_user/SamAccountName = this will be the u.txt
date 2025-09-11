@@ -1,0 +1,7 @@
+SamAccountName = this will be the users logon name
+password = users password. Make sure it meets your password requirements.
+path = OU where you want to import users to. This is the distinguished name of the OU. If you leave it blank it will import into the default users container.
+GivenName = First name
+Surname = Last name
+Name = Name
+DisplayName = Display Name

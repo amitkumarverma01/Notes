@@ -1,0 +1,12 @@
+GivenName,Surname,SamAccountName,DisplayName,Path,UserPrincipalName,Password,Department,Description,City,State,Company,Country,Email
+jack,welch,jack.welch,jack welch,"OU=HR,DC=mylab,DC=local",jack.welch@mylab.local,Welc0me@123,HR,F.E. 1 Workers,Lucknow,U. P.,Yuan,India,jack.welch@mylab.local
+smith,adam,smith.adam,smith adam,"OU=HR,DC=mylab,DC=local",smith.adam@mylab.local,Welc0me@123,HR,F.E. 1 Workers,Lucknow,U. P.,Yuan,India,smith.adam@mylab.local
+john,paul,john.paul,john paul,"OU=HR,DC=mylab,DC=local",john.paul@mylab.local,Welc0me@123,HR,F.E. 1 Workers,Lucknow,U. P.,Yuan,India,john.paul@mylab.local
+philip,kotler,philip.kotler,philip kotler,"OU=HR,DC=mylab,DC=local",philip.kotler@mylab.local,Welc0me@123,HR,F.E. 1 Workers,Lucknow,U. P.,Yuan,India,philip.kotler@mylab.local
+pralad,kakkar,pralad.kakkar,pralad kakkar,"OU=HR,DC=mylab,DC=local",pralad.kakkar@mylab.local,Welc0me@123,HR,F.E. 1 Workers,Lucknow,U. P.,Yuan,India,pralad.kakkar@mylab.local
+AK,KC,akkc,AKKC,"OU=HR,DC=mylab,DC=local",akkc@mylab.local,Welc0me@123,HR,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,akkc@mylab.local
+amit1,kumar,amit1.kumar,amit1 kumar,"OU=IT,DC=mylab,DC=local",amit1@mylab.local,Welc0me@124,IT,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,amit1@mylab.local
+amit2,kumar,amit2.kumar,amit2 kumar,"OU=IT,DC=mylab,DC=local",amit2@mylab.local,Welc0me@125,IT,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,amit2@mylab.local
+amit3,kumar,amit3.kumar,amit3 kumar,"OU=IT,DC=mylab,DC=local",amit3@mylab.local,Welc0me@126,IT,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,amit3@mylab.local
+amit4,kumar,amit4.kumar,amit4 kumar,"OU=IT,DC=mylab,DC=local",amit4@mylab.local,Welc0me@127,IT,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,amit4@mylab.local
+amit5,kumar,amit5.kumar,amit5 kumar,"OU=IT,DC=mylab,DC=local",amit5@mylab.local,Welc0me@128,IT,F.E. 2 Workers,Lucknow,U. P.,Yuan,India,amit5@mylab.local

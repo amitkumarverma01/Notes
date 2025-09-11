@@ -1,0 +1,7 @@
+GivenName,Surname,SamAccountName,DisplayName,Path,UserPrincipalName,Password,Department
+jack,welch,jack.welch,jack welch,"OU=HR,DC=mylab,DC=local",jack.welch@mylab.local,Welc0me@123,HR
+smith,adam,smith.adam,smith adam,"OU=HR,DC=mylab,DC=local",smith.adam@mylab.local,Welc0me@123,HR
+john,paul,john.paul,john paul,"OU=HR,DC=mylab,DC=local",john.paul@mylab.local,Welc0me@123,HR
+philip,kotler,philip.kotler,philip kotler,"OU=HR,DC=mylab,DC=local",philip.kotler@mylab.local,Welc0me@123,HR
+pralad,kakkar,pralad.kakkar,pralad kakkar,"OU=HR,DC=mylab,DC=local",pralad.kakkar@mylab.local,Welc0me@123,HR
+eupgdc,akkc,pralad.kakkar,pralad kakkar,"OU=HR,DC=mylab,DC=local",eupgdc.akkc@mylab.local,Welc0me@123,HR
