@@ -1,0 +1,32 @@
+trigger: none # Disable CI triggers.
+
+pool: pipeline_test
+
+steps:
+- task: TerraformInstaller@1
+  displayName: Terraform status
+  inputs:
+    terraformVersion: 'latest'
+
+- task: TerraformTask@5
+  displayName: Terraform init
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'pipeline1'
+    backendAzureRmStorageAccountName: 'rajajistorageaccount'
+    backendAzureRmContainerName: 'rajajicontainer'
+    backendAzureRmKey: 'pipeline1.tfstate'
+
+- task: TerraformTask@5
+  displayName: Terraform Validate
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+
+- task: TerraformTask@5
+  displayName: Terraform plan
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'pipeline1'

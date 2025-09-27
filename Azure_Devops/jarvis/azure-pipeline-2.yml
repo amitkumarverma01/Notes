@@ -1,0 +1,114 @@
+
+parameters:
+- name: environment
+  displayName: environmet(dev/prod)
+  type: string
+  default: dev
+  values: 
+  - dev
+  - prod
+
+variables:
+  wordir : '$(System.DefaultWorkingDirectory)/environment/${{ parameters.environment}}'
+  key : '${{ parameters.environment}}.terraform.tfstate'
+
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+    exclude:
+      - dev/*
+
+jobs:
+- job: terraformInstallInit
+  displayName: terraform install and init
+  pool: jarvis
+  steps:
+    - task: TerraformInstaller@1
+      displayName: terraform Install
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: $(wordir)
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: $(key)
+
+- job: terraformValidateAndPlan
+  displayName: terraform validate and plan
+  dependsOn: terraformInstallInit
+  pool: jarvis
+  steps:
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: $(wordir)
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: $(key)
+    - task: TerraformTask@5
+      displayName: terraform Validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: $(wordir)
+
+    - task: TerraformTask@5
+      displayName: terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: $(wordir)
+        environmentServiceNameAzureRM: 'jarvis'
+
+- job: manualApproval
+  displayName: Manual Approval (Only on main)
+  dependsOn: terraformValidateAndPlan
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  pool: server
+  steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 60
+      inputs:
+        instructions: 'Review the Terraform Plan and approve to proceed with Apply.'
+        notifyUsers: 'amitkkc01@gmail.com, maneeshku2022@gmail.com, dkc.hcl@gmail.com'
+        approvers: 'amitkkc01@gmail.com, maneeshku2022@gmail.com, dkc.hcl@gmail.com'
+        onTimeout: 'reject'
+
+
+- job: terraformApply
+  displayName: terraform Apply
+  dependsOn: manualApproval
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  pool: jarvis
+  steps:
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: $(wordir)
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: $(key)
+
+    - task: TerraformTask@5
+      displayName: terraform Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: $(wordir)
+        environmentServiceNameAzureRM: 'jarvis'
+

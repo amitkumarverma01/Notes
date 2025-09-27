@@ -1,0 +1,81 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+    exclude:
+      - dev/*
+
+jobs:
+- job: terraformInstallInit
+  displayName: terraform install and init
+  pool: jarvis
+  steps:
+    - task: TerraformInstaller@1
+      displayName: terraform Install
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+
+- job: terraformValidateAndPlan
+  displayName: terraform validate and plan
+  dependsOn: terraformInstallInit
+  pool: jarvis
+  steps:
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+    - task: TerraformTask@5
+      displayName: terraform Validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+
+    - task: TerraformTask@5
+      displayName: terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+        environmentServiceNameAzureRM: 'jarvis'
+
+- job: terraformApply
+  displayName: terraform Apply
+  dependsOn: terraformValidateAndPlan
+  pool: jarvis
+  steps:
+    - task: TerraformTask@5
+      displayName: terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+        backendServiceArm: 'jarvis'
+        backendAzureRmStorageAccountName: 'jarvisstorageaccount001'
+        backendAzureRmContainerName: 'jarvis'
+        backendAzureRmKey: 'dev.terraform.tfstate'
+    - task: TerraformTask@5
+      displayName: terraform Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+        environmentServiceNameAzureRM: 'jarvis'

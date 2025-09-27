@@ -1,0 +1,55 @@
+trigger: none  # No automatic trigger
+
+pool: pipeline_test
+
+stages:
+  - stage: Init_Validate_Plan
+    displayName: "Terraform Init and Validate"
+    jobs:
+      - job: InitAndValidate
+        steps:
+          - task: TerraformInstaller@1
+            displayName: Terraform Install
+            inputs:
+              terraformVersion: 'latest'
+
+          - task: TerraformTask@5
+            displayName: Terraform Init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              backendServiceArm: 'pipeline1'
+              backendAzureRmStorageAccountName: 'rajajistorageaccount'
+              backendAzureRmContainerName: 'rajajicontainer'
+              backendAzureRmKey: 'pipeline1.tfstate'
+
+          - task: TerraformTask@5
+            displayName: Terraform Validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+          - task: TerraformTask@5
+            displayName: Terraform Plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              environmentServiceNameAzureRM: 'pipeline1'
+
+          - task: TerraformTask@5
+            displayName: Terraform Apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              environmentServiceNameAzureRM: 'pipeline1'
+
+          - task: TerraformTask@5
+            displayName: Terraform Destroy
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
+              workingDirectory: '$(System.DefaultWorkingDirectory)'
+              environmentServiceNameAzureRM: 'pipeline1'
